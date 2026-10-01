@@ -1,0 +1,37 @@
+const { chromium } = require('@playwright/test')
+const assert = require('node:assert/strict')
+;(async () => {
+  const browser = await chromium.launch({ channel: 'msedge', headless: true })
+  const page = await browser.newPage()
+  const errors = []
+  page.on('pageerror', error => errors.push(error.message))
+  await page.goto('http://127.0.0.1:5173')
+  for (const width of [320, 375, 425, 768, 1024, 1440, 1920]) {
+    await page.setViewportSize({ width, height: 900 })
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `Overflow at ${width}`)
+    if (width < 768) {
+      await page.getByRole('button', { name: 'Open menu' }).click()
+      await page.getByRole('navigation').getByRole('link', { name: 'Projects' }).click()
+      await page.waitForURL('**/#projects')
+      assert.equal(await page.getByRole('button', { name: 'Open menu' }).getAttribute('aria-expanded'), 'false')
+    }
+    console.log(`Layout and navigation: ${width}px PASS`)
+  }
+  await page.getByRole('button', { name: /Switch to/ }).click()
+  const selected = await page.locator('html').getAttribute('data-theme')
+  await page.reload()
+  assert.equal(await page.locator('html').getAttribute('data-theme'), selected)
+  await page.getByRole('button', { name: /Switch to/ }).click()
+  assert.notEqual(await page.locator('html').getAttribute('data-theme'), selected)
+  await page.getByRole('link', { name: 'Resume details' }).click()
+  await page.waitForURL('**/#resume')
+  assert.equal(await page.locator('a[download]').count(), 0)
+  assert.equal(await page.locator('a[href=""], a[href="#"]').count(), 0)
+  assert.equal(await page.evaluate(() => [...document.querySelectorAll('a[href^="#"]')].every(a => document.getElementById(a.hash.slice(1)))), true)
+  assert.deepEqual(errors, [])
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.goto('http://127.0.0.1:5173')
+  await page.screenshot({ path: 'portfolio-preview.png', fullPage: true })
+  console.log('Theme persistence, anchor targets, pending resume/contact states, and runtime errors: PASS')
+  await browser.close()
+})().catch(error => { console.error(error); process.exit(1) })
