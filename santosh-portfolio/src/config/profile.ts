@@ -1,0 +1,1 @@
+export const profile = { name: 'Santosh Kumar', title: 'Frontend React.js Developer', email: '', linkedin: '', github: '', employmentPeriod: 'Dates to be added', resumePath: '/resume/Santosh-Kumar-Resume.pdf', resumeAvailable: false }
