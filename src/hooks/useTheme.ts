@@ -1,7 +1,24 @@
-import { useEffect, useState } from 'react'
-import { initialTheme } from '../utils/theme'
+import { useSyncExternalStore } from 'react'
+import { initialTheme, type Theme } from '../utils/theme'
+
+function currentTheme(): Theme {
+  return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light'
+}
+function subscribe(callback: () => void) {
+  window.addEventListener('portfolio-theme-change', callback)
+  return () => window.removeEventListener('portfolio-theme-change', callback)
+}
 export function useTheme() {
-const [theme, setTheme] = useState(initialTheme)
-useEffect(() => { document.documentElement.dataset.theme = theme; try { localStorage.setItem('portfolio-theme', theme) } catch { /* Theme still works without storage. */ } }, [theme])
-return { theme, toggle: () => setTheme(value => value === 'light' ? 'dark' : 'light') }
+  const theme = useSyncExternalStore(subscribe, currentTheme, initialTheme)
+  function toggle() {
+    const next: Theme = currentTheme() === 'light' ? 'dark' : 'light'
+    document.documentElement.dataset.theme = next
+    try {
+      localStorage.setItem('portfolio-theme', next)
+    } catch {
+      /* Storage is optional. */
+    }
+    window.dispatchEvent(new Event('portfolio-theme-change'))
+  }
+  return { theme, toggle }
 }

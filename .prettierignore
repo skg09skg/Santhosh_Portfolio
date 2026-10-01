@@ -1,0 +1,4 @@
+node_modules
+dist
+.prerender
+package-lock.json
