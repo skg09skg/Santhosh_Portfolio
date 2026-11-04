@@ -26,7 +26,7 @@ export function Hero() {
         <h1>{profile.name}</h1>
         <p className="hero-tagline">{profile.title}</p>
         <ul className="badges core-technologies" aria-label="Core technologies">
-          {['React.js', 'TypeScript', 'JavaScript'].map((technology) => (
+          {['React.js', 'Next.js', 'TypeScript', 'JavaScript'].map((technology) => (
             <li className="badge" key={technology}>
               {technology}
             </li>
@@ -180,10 +180,10 @@ export function Contact() {
   return (
     <section id="contact" className="container section contact">
       <SectionTitle title="Contact" />
-      <p>
+      {/* <p>
         I am seeking remote React.js and frontend opportunities with
         international and product companies.
-      </p>
+      </p> */}
       <p>{[profile.location, profile.timeZone].filter(Boolean).join(' | ')}</p>
       {profile.email && (
         <Button href={`mailto:${profile.email}`}>

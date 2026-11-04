@@ -3,7 +3,7 @@ export const experience = [
   {
     company: 'AIRI Lab (AIRIlab)',
     role: 'React.js Frontend Developer (Contract)',
-    period: 'Jul 2025 - Present',
+    period: 'Jul 2025 - Oct 2026',
     location: 'Shenzhen, China (Remote)',
     description:
       'Generative-AI design and visualization SaaS for architects and designers, covering architecture, interiors, landscapes, and urban design.',
