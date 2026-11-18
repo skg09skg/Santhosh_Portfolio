@@ -1,6 +1,6 @@
 // Add only verified, publishable details. Empty fields are hidden in the UI.
 export const profile = {
-  name: 'Santosh Kumar',
+  name: 'Santhosh Kumar G',
   title: 'Frontend React.js Developer',
   email: 'santoshkumar95432@gmail.com',
   phone: '+91 93807 33438',

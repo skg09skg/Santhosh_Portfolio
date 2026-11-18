@@ -1,4 +1,4 @@
-# Santosh Kumar Portfolio
+# Santhosh Kumar G Portfolio
 
 A React and TypeScript portfolio with responsive layouts, light and dark themes, accessible navigation, and HTML prerendered at build time. Projects appear immediately after the hero, followed by Experience; missing personal details are hidden rather than displayed as placeholders.
 
